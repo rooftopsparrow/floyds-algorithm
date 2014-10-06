@@ -136,12 +136,14 @@ public class Floyd {
 					s += "-";
 				} else {
 					s += Integer.toString(value);
+					String digits = "";
 					int v = vertex;
 					while (v > 0) {
 						int digit = v % 10;
-						s += Floyd.subscripts[digit];
+						digits = Floyd.subscripts[digit] + digits;
 						v = v / 10;
 					}
+					s += digits;
 				}
 				s += (j < matrix[i].length - 1) ? "\t" : "";
 			};
