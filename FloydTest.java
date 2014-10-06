@@ -32,7 +32,10 @@ public class FloydTest {
 		assertTrue(Floyd.beatsCurrent(-1, 0));
 	}
 
+	@Test
 	public void nextMatrix_shouldCorrectlyCreateTheNextMatrix() {
+
+		int[][] annotate = new int[5][5];
 
 		int[][] matrix = {
 			{ 0,	1,	-1,	1,	5 },
@@ -50,8 +53,11 @@ public class FloydTest {
 			{ 3,	4,	-1,	4,	0}
 		};
 
-		Floyd.transform(0, matrix);
+		Floyd.transform(0, matrix, annotate);
 		assertTrue(Arrays.deepEquals(matrix, result));
+		assertTrue(annotate[1][4] == 1);
+		assertTrue(annotate[4][1] == 1);
+		assertTrue(annotate[4][3] == 1);
 
 	}
 

@@ -91,8 +91,8 @@ D5 matrix
 ```bash
 make test
 JUnit version 4.11
-....
+.....
 Time: 0.005
 
-OK (4 tests)
+OK (5 tests)
 ```
