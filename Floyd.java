@@ -1,28 +1,55 @@
+import java.util.Scanner;
+
 public class Floyd {
 
-	public static int size = 5;
-
-	public static int[][] d = {
-		{ 0,	1,	-1,	1,	5 },
-		{ 9,	0,	3,	2,	-1 },
-		{ -1,	-1,	0,	4,	-1 },
-		{ -1,	-1,	2,	0,	3 },
-		{ 3,	-1,	-1,	-1,	0 }
-	};
-
 	public static void main(String[] args) {
-		
-		for(int dimension = 0; dimension < size; dimension++) {
+
+		Scanner sc = new Scanner(System.in);
+
+		for (int i = 0; i < args.length; i++) {
+			System.out.println(args[i]);
+		};
+
+		System.out.println("How many vertices?");
+
+		// Number of vertices the graph has
+		int vertices = sc.nextInt();
+		// Matrix we need to fill
+		int[][] matrix = new int[vertices][vertices];
+
+		System.out.println("Enter weights between each vertex. One per line or separated by tabs.");
+		System.out.println("Use -1 to indicate that there is no edge between two vertices.");
+
+		sc.useDelimiter("[\\t\\n]");
+
+		int row = 0, column = 0, count = 0;
+		int maxCount = vertices * vertices;
+		while(count < maxCount && sc.hasNext()) {
+
+			int val = sc.nextInt();
+			matrix[row][column] = val;
+			// Increment count
+			count++;
+			// modify column and row
+			column += 1;
+			if (column == vertices) {
+				column = 0;
+				row += 1;
+			}
+
+		}
+
+		for(int dimension = 0; dimension < vertices; dimension++) {
 
 			System.out.println("D" + dimension + " matrix");
-			System.out.println(printMatrix(d));
+			System.out.println(printMatrix(matrix));
 
-			nextMatrix(dimension, d);
+			Floyd.transform(dimension, matrix);
 
 		};
 
-		System.out.println("D" + size + " matrix");
-		System.out.println(printMatrix(d));
+		System.out.println("D" + vertices + " matrix");
+		System.out.println(Floyd.printMatrix(matrix));
 
 	}
 
@@ -42,7 +69,7 @@ public class Floyd {
 		return current;
 	}
 
-	public static void nextMatrix(int dimension, int[][] matrix) {
+	public static int[][] transform(int dimension, int[][] matrix) {
 
 		// Look at each row
 		for (int row = 0; row < matrix.length; row++) {
@@ -65,22 +92,24 @@ public class Floyd {
 
 				// Get the current score of getting
 				// to the current vertex...
-				int currentScore = d[row][column];
+				int currentScore = matrix[row][column];
 
 				// and the scores of getting to
 				// the vertex through another vertex
-				int v1 = d[row][dimension];
-				int v2 = d[dimension][column];
+				int v1 = matrix[row][dimension];
+				int v2 = matrix[dimension][column];
 				int vertexScore = calculateVertexScore(v1, v2);
 
 				// Calculate the minimum between the two
 				// and update the matrix
-				d[row][column] = compareScores(currentScore, vertexScore);
+				matrix[row][column] = compareScores(currentScore, vertexScore);
 
 			};
 		};
 
-	};
+		return matrix;
+
+	}
 
 	public static String printMatrix(int[][] matrix) {
 		
@@ -100,3 +129,4 @@ public class Floyd {
 	}
 
 }
+
