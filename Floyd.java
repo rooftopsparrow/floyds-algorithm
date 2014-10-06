@@ -2,6 +2,14 @@ import java.util.Scanner;
 
 public class Floyd {
 
+	private static String[] subscripts = {
+		"\u2080", "\u2081",
+		"\u2082", "\u2083",
+		"\u2084", "\u2085",
+		"\u2086", "\u2087",
+		"\u2088", "\u2089",
+	};
+
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
@@ -16,6 +24,8 @@ public class Floyd {
 		int vertices = sc.nextInt();
 		// Matrix we need to fill
 		int[][] matrix = new int[vertices][vertices];
+		// Annotate vertex positions for transformed matrix
+		int[][] annotate = new int[vertices][vertices];
 
 		System.out.println("Enter weights between each vertex. One per line or separated by tabs.");
 		System.out.println("Use -1 to indicate that there is no edge between two vertices.");
@@ -42,14 +52,14 @@ public class Floyd {
 		for(int dimension = 0; dimension < vertices; dimension++) {
 
 			System.out.println("D" + dimension + " matrix");
-			System.out.println(printMatrix(matrix));
+			System.out.println(printMatrix(matrix, annotate));
 
-			Floyd.transform(dimension, matrix);
+			Floyd.transform(dimension, matrix, annotate);
 
 		};
 
 		System.out.println("D" + vertices + " matrix");
-		System.out.println(Floyd.printMatrix(matrix));
+		System.out.println(Floyd.printMatrix(matrix, annotate));
 
 	}
 
@@ -58,18 +68,16 @@ public class Floyd {
 		else return v1 + v2;
 	}
 
-	public static int compareScores(int current, int vertex) {
+	public static boolean beatsCurrent (int current, int vertex) {
 
 		boolean currentIsInfinity = current == -1;
 		boolean vertexIsInfinity = vertex == -1;
 
-		if ((!vertexIsInfinity && currentIsInfinity) || (!vertexIsInfinity && vertex < current)) 
-			return vertex;
+		return ((!vertexIsInfinity && currentIsInfinity) || (!vertexIsInfinity && vertex < current));
 
-		return current;
 	}
 
-	public static int[][] transform(int dimension, int[][] matrix) {
+	public static int[][] transform(int dimension, int[][] matrix, int[][] annotate) {
 
 		// Look at each row
 		for (int row = 0; row < matrix.length; row++) {
@@ -102,7 +110,12 @@ public class Floyd {
 
 				// Calculate the minimum between the two
 				// and update the matrix
-				matrix[row][column] = compareScores(currentScore, vertexScore);
+				boolean wins = beatsCurrent(currentScore, vertexScore);
+
+				if (wins) {
+					matrix[row][column]	= vertexScore;
+					annotate[row][column] = (dimension + 1);
+				}
 
 			};
 		};
@@ -111,14 +124,25 @@ public class Floyd {
 
 	}
 
-	public static String printMatrix(int[][] matrix) {
+	public static String printMatrix(int[][] matrix, int[][] annotate) {
 		
 		String s = "";
 
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				int value = matrix[i][j];
-				s += (value == -1) ? "-" : Integer.toString(value);
+				int vertex = annotate[i][j];
+				if (value == -1) {
+					s += "-";
+				} else {
+					s += Integer.toString(value);
+					int v = vertex;
+					while (v > 0) {
+						int digit = v % 10;
+						s += Floyd.subscripts[digit];
+						v = v / 10;
+					}
+				}
 				s += (j < matrix[i].length - 1) ? "\t" : "";
 			};
 			s += (i < matrix.length - 1) ? "\n" : "";

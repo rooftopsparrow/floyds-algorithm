@@ -19,16 +19,17 @@ public class FloydTest {
 	}
 
 	@Test
-	public void compareScores_shouldReturnTheSmallerOfTheTwo() {
-		assertTrue(Floyd.compareScores(1, 2) == 1);
-		assertTrue(Floyd.compareScores(2, 2) == 2);
-		assertTrue(Floyd.compareScores(-1, -1) == -1);
+	public void compareScores_shouldReturnFalseForLargerAndTies() {
+		assertFalse(Floyd.beatsCurrent(1, 2));
+		assertFalse(Floyd.beatsCurrent(2, 2));
+		assertFalse(Floyd.beatsCurrent(-1, -1));
 	}
 
 	@Test
-	public void compareScores_shouldReturnTheNonInfinityOfTheTwo() {
-		assertTrue(Floyd.compareScores(3, -1) == 3);
-		assertTrue(Floyd.compareScores(-1, 12) == 12);
+	public void compareScores_shouldReturnTrueForLessValues() {
+		assertTrue(Floyd.beatsCurrent(4, 2));
+		assertTrue(Floyd.beatsCurrent(-1, 3));
+		assertTrue(Floyd.beatsCurrent(-1, 0));
 	}
 
 	public void nextMatrix_shouldCorrectlyCreateTheNextMatrix() {

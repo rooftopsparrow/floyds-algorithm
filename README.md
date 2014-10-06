@@ -37,8 +37,7 @@ Use -1 to indicate that there is no edge between two vertices.
 Using Redirects:
 
 ```bash
-java Floyd < tab.table
-
+$ java Floyd < tab.table
 # tab.table
 5
 0	1	-1	1	5
@@ -49,7 +48,7 @@ java Floyd < tab.table
 ```
 
 ## Output
-```
+```text
 D0 matrix
 0	1	-	1	5
 9	0	3	2	-
@@ -58,34 +57,34 @@ D0 matrix
 3	-	-	-	0
 D1 matrix
 0	1	-	1	5
-9	0	3	2	14
+9	0	3	2	14₁
 -	-	0	4	-
 -	-	2	0	3
-3	4	-	4	0
+3	4₁	-	4₁	0
 D2 matrix
-0	1	4	1	5
-9	0	3	2	14
+0	1	4₂	1	5
+9	0	3	2	14₁
 -	-	0	4	-
 -	-	2	0	3
-3	4	7	4	0
+3	4₁	7₂	4₁	0
 D3 matrix
-0	1	4	1	5
-9	0	3	2	14
+0	1	4₂	1	5
+9	0	3	2	14₁
 -	-	0	4	-
 -	-	2	0	3
-3	4	7	4	0
+3	4₁	7₂	4₁	0
 D4 matrix
-0	1	3	1	4
-9	0	3	2	5
--	-	0	4	7
+0	1	3₄	1	4₄
+9	0	3	2	5₄
+-	-	0	4	7₄
 -	-	2	0	3
-3	4	6	4	0
+3	4₁	6₄	4₁	0
 D5 matrix
-0	1	3	1	4
-8	0	3	2	5
-10	11	0	4	7
-6	7	2	0	3
-3	4	6	4	0
+0	1	3₄	1	4₄
+8₅	0	3	2	5₄
+10₅	11₅	0	4	7₄
+6₅	7₅	2	0	3
+3	4₁	6₄	4₁	0
 ```
 ## Test
 
